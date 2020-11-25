@@ -1,142 +1,85 @@
-# RailsGoat [![Build Status](https://api.travis-ci.org/OWASP/railsgoat.png?branch=master)](https://travis-ci.org/OWASP/railsgoat) [![Code Climate](https://codeclimate.com/github/OWASP/railsgoat.png)](https://codeclimate.com/github/OWASP/railsgoat)
+# RailsGoat: A deliberately insecure Ruby web application
 
-RailsGoat is a vulnerable version of the Ruby on Rails Framework from versions 3 to 5. It includes vulnerabilities from the OWASP Top 10, as well as some "extras" that the initial project contributors felt worthwhile to share. This project is designed to educate both developers, as well as security professionals.
+This is a Ruby demo application, based on https://github.com/OWASP/railsgoat.
 
-## Support
+**Warning**: The computer running this application will be vulnerable to attacks, please take appropriate precautions.
 
-If you are looking for support or troubleshooting assistance, please visit our [OWASP Slack Channel](https://owasp.slack.com/messages/project-railsgoat/).
+# Running standalone
 
-## Getting Started
+You can run RailGoat locally on any machine with Ruby and Rails 5.x installed.
 
-To begin, if you do not have Ruby, Git, MySQL, and Postgres, we suggest
-using this [site](https://gorails.com/setup) to install the software.
-Pick the appropriate operating system and follow the instructions.
+1. Place a `contrast_security.yaml` file into the application's root folder.
 
-After installing the above software, clone this repo:
+1. Install the Contrast agent using: 
+```sh
+  bundle add contrast-agent
+  bundle install
+```
+3. Initialize the database:
+```sh
+  rails db:setup
+```
+4. Start the Thin web server:
 
-```bash
-$ git clone git@github.com:OWASP/railsgoat.git
+```sh
+  rails server
+```
+5. Browse the application at http://localhost:3000
+
+# Running in Docker
+
+You can run RailsGoat within a Docker container, tested on OSX. The agent is added automatically during the Docker build process.
+
+1. Place a `contrast_security.yaml` file into the application's root folder.
+1. Build the RailsGoat container image using `./1-Build-Docker-Image.sh`
+1. Run the container using
+```sh
+docker run \
+  -v $PWD/contrast_security.yaml:/myapp/contrast_security.yaml \
+  -e CONTRAST__APPLICATION__NAME=railsgoat \
+  -p 3000:3000 railsgoat:latest 
+```
+4. Browse the application at http://localhost:3000
+
+# Running in Azure (Azure App Service):
+
+## Pre-Requisites
+
+1. Place a `contrast_security.yaml` file into the application's root folder.
+1. Install Terraform from here: https://www.terraform.io/downloads.html.
+1. Install PyYAML using `pip install PyYAML`.
+1. Install the Azure cli tools using `brew update && brew install azure-cli`.
+1. Log into Azure to make sure you cache your credentials using `az login`.
+1. Edit the [variables.tf](variables.tf) file (or add a terraform.tfvars) to add your initials, preferred Azure location, app name, server name and environment.
+1. Run `terraform init` to download the required plugins.
+1. Run `terraform plan` and check the output for errors.
+1. Run `terraform apply` to build the infrastructure that you need in Azure, this will output the web address for the application.
+1. Run `terraform destroy` when you would like to stop the app service and release the resources.
+
+## Running automated tests
+
+RailsGoat includes a set of failing Capybara RSpecs, each one indicating that a separate vulnerability exists in the application. To run them, you first need to install [PhantomJS](https://github.com/jonleighton/poltergeist#installing-phantomjs) (version 2.1.1 has been tested in Dev and on Travis CI), which is required by the Poltergeist Capybara driver. Upon installation, simply run the following task:
+
+```sh
+rails training
 ```
 
-**NOTE: NOT NECESSARY IF YOU WANT TO WORK WITH RAILS 5.** Otherwise, if you wish to use the Rails 3 or 4 versions, you'll need to switch branches:
+For Docker run:
 
-```bash
-$ cd railsgoat
-$ git checkout rails_3_2
-$ git checkout rails_4_2
+```sh
+docker run \
+  -v $PWD/contrast_security.yaml:/myapp/contrast_security.yaml \
+  -e CONTRAST__APPLICATION__NAME=railsgoat \
+  -e TEST=true \
+  -p 3000:3000 railsgoat:latest
 ```
 
-Navigate into the directory (already there if you followed the previous step) and install the dependencies:
+## Updating the Docker Image
 
-```bash
-$ bundle install
-```
+You can re-build the docker image (used by Terraform) by running two scripts in order:
 
-If you receive an error, make sure you have `bundler` installed:
-
-```bash
-$ gem install bundler
-```
-
-Initialize the database:
-
-```bash
-$ rails db:setup
-```
-
-Start the Thin web server:
-
-```bash
-$ rails server
-```
-
-Open your favorite browser, navigate to `http://localhost:3000` and start hacking!
-
-## Docker Install
-To run Railsgoat with Docker you must first have [Docker](https://docs.docker.com/engine/installation/) and [Docker Compose](https://docs.docker.com/compose/install/) installed. Once those dependencies are installed, cd into the Railsgoat directory where you've cloned the code and run. Rails requires Compose **1.6.0** or above and require a Docker Engine of version **1.10.0** or above.
-
-```
-#~/code/railsgoat
-$ docker-compose build
-$ docker-compose run web rails db:setup
-$ docker-compose up
-...
-  Creating railsgoat_web_1
-  Attaching to railsgoat_web_1
-$
-```
-Once you see the preceeding message Railsgoat is running on your localhost on port 3000.
-
-Open your favorite browser, navigate to `http://<dockerIP>:3000` and start hacking! The Docker IP is usually `192.168.99.100`. Run `docker-machine env` to verify.
-
-Note: if your container exits with an error, it may be because a server is already running:
-```
-A server is already running. Check /myapp/tmp/pids/server.pid.
-=> Booting Thin
-=> Rails 5.0.1 application starting in development on
-http://0.0.0.0:3000
-=> Run `rails server -h` for more startup options
-=> Ctrl-C to shutdown server
-Exiting
-```
-In this case, remove that server.pid file and try again. Note also that this file is in your current working directory, not inside the container.
-
-## Capybara Tests
-
-RailsGoat now includes a set of failing Capybara RSpecs, each one indicating that a separate vulnerability exists in the application. To run them, you first need to install [PhantomJS](https://github.com/jonleighton/poltergeist#installing-phantomjs) (version 2.1.1 has been tested in Dev and on Travis CI), which is required by the Poltergeist Capybara driver. Upon installation, simply run the following task:
-
-```
-$ rails training
-```
-
-To run just one spec:
-
-```
-$ rails training SPEC=spec/vulnerabilities/sql_injection_spec.rb
-```
-
-## MySQL Environment
-
-By default in development mode Railsgoat runs with a SQLite database. There is an environment defined to use MySQL. For some of the SQL injection vulnerabilities to work you have to run the app with MySQL as the database. The following steps will setup and run Railsgoat to use MySQL. *MySQL must be installed and running before running these steps*
-
-```
-#Create the MySQL database
-RAILS_ENV=mysql rails db:create
-
-#Run the migrations against the database
-RAILS_ENV=mysql rails db:migrate
-
-#Boot Rails using MySQl
-RAILS_ENV=mysql rails s
-```
-
-## Processing Email
-
-In order for RailsGoat to effectively process email, you will first need to run MailCatcher, an SMTP server that will intercept email messages and display them in a web interface.
-
-Mailcatcher is not installed by default. To install MailCatcher and start an instance of it, simply run:
-
-```
-$ gem install mailcatcher
-$ mailcatcher
-```
-
-If successful, you should see the following output:
-
-```
-Starting MailCatcher
-==> smtp://127.0.0.1:1025
-==> http://127.0.0.1:1080
-*** MailCatcher runs as a daemon by default. Go to the web interface to quit.
-```
-
-Alternatively, you can run MailCatcher in the foreground by running `mailcatcher -f` in your terminal.
-
-## Contributing
-
-Please see our [contribution document](./CONTRIBUTING.md) to learn more. Additionally, note that as changes are made to the application, the Capybara RSpecs can be used to verify that the vulnerabilities in the application are still intact. To use them in this way, and have them change to `pending` instead of `fail`, set the `RAILSGOAT_MAINTAINER` environment variable.
-
-Conversion to the OWASP Top Ten 2013 completed in November, 2013.
+* 1-Build-Docker-Image.sh
+* 2-Deploy-Docker-Image-To-Docker-Hub.sh
 
 # License
 

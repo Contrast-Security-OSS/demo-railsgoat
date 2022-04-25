@@ -44,7 +44,7 @@ pipeline {
                             export ARM_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID
                             export ARM_TENANT_ID=$AZURE_TENANT_ID
 
-                            terraform apply -auto-approve -var 'location=$location' -var 'initials=$initials' -var 'environment=qa' -var 'servername=jenkins' -var 'session_metadata=branchName=${env.GIT_BRANCH},buildNumber=${BUILD_NUMBER},commitHash=${env.GIT_SHORT_COMMIT},version=1.0' -var 'run_automated_tests=true'
+                            terraform apply -auto-approve -var 'location=$location' -var 'initials=$initials' -var 'environment=qa' -var 'servername=jenkins' -var 'session_metadata=branchName=${env.GIT_BRANCH},buildNumber=${BUILD_NUMBER},commitHash=${env.GIT_SHORT_COMMIT},Version=1.0' -var 'run_automated_tests=true'
                             """
                         } catch (Exception e) {
                             echo "Terraform refresh failed, deleting state"

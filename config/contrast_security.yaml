@@ -1,7 +1,0 @@
-agent: 
-  service: 
-    logger: 
-      path: contrast_service.log
-      level: ERROR
-    host: 127.0.0.1
-    port: 30555

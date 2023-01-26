@@ -15,7 +15,6 @@ pipeline {
                 }
                 sh '''
                 terraform init -upgrade
-                npm link @playwright/test
                 '''
             }
         }

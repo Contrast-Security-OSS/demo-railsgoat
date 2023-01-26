@@ -34,15 +34,15 @@ resource "azurerm_container_group" "app" {
       protocol = "TCP"
     }
     environment_variables = {
-      CONTRAST__API__URL="${data.external.yaml.result.url}"
-      CONTRAST__API__API_KEY="${data.external.yaml.result.api_key}"
-      CONTRAST__API__SERVICE_KEY="${data.external.yaml.result.service_key}"
-      CONTRAST__API__USER_NAME="${data.external.yaml.result.user_name}"
-      CONTRAST__APPLICATION__NAME="${var.appname}"
-      CONTRAST__APPLICATION__SESSION_METADATA="${var.session_metadata}"
-      CONTRAST__SERVER__NAME="${var.servername}"
-      CONTRAST__SERVER__ENVIRONMENT="${var.environment}"
-      TEST="${var.run_automated_tests}"
+      CONTRAST__API__URL=data.external.yaml.result.url
+      CONTRAST__API__API_KEY=data.external.yaml.result.api_key
+      CONTRAST__API__SERVICE_KEY=data.external.yaml.result.service_key
+      CONTRAST__API__USER_NAME=data.external.yaml.result.user_name
+      CONTRAST__APPLICATION__NAME=var.appname
+      CONTRAST__APPLICATION__SESSION_METADATA=var.session_metadata
+      CONTRAST__SERVER__NAME=var.servername
+      CONTRAST__SERVER__ENVIRONMENT=var.environment
+      TEST=var.run_automated_tests
     }
   }
 }

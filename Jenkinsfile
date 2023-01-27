@@ -51,7 +51,7 @@ pipeline {
         }
         stage('sleeping') {
             steps {
-                sleep 180
+                sleep 120
             }
         }
         stage('provision - dev') {
@@ -87,7 +87,7 @@ pipeline {
         }
         stage('sleeping - dev') {
             steps {
-                sleep 180
+                sleep 120
             }
         }
         stage('provision - prod') {
@@ -118,7 +118,7 @@ pipeline {
         }
         stage('sleeping - prod') {
             steps {
-                sleep 180
+                sleep 120
             }
         }
         stage('destroy') {

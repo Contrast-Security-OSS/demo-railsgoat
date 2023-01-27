@@ -28,7 +28,7 @@ resource "azurerm_container_group" "app" {
     name   = "web"
     image  = "contrastsecuritydemo/railsgoat:1.0"
     cpu    = "1"
-    memory = "1.5"
+    memory = "2"
     ports {
       port     = 3000
       protocol = "TCP"

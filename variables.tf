@@ -37,5 +37,5 @@ variable "run_automated_tests" {
 
 variable "python_binary" {
   description = "Path to local Python binary"
-  default = "python"
+  default = "python3"
 }

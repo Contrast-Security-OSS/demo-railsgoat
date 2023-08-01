@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   #protect_from_forgery with: :exception
 
+  # Update: this became default behaviour from Rails 5, so we need to 
+  # disable it until we figure out how to implement properly:
+  # skip_before_action :verify_authenticity_token
+
   private
 
   def mailer_options

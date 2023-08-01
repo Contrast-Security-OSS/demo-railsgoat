@@ -3,7 +3,7 @@ source "https://rubygems.org"
 
 gem "rails", "6.0.6"
 
-ruby "2.7.7"
+ruby "3.0.6"
 
 gem "websocket-driver"
 

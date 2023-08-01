@@ -3,7 +3,7 @@
 
 # SETUP
 # Default Ruby version for this project.
-ARG RUBY_VERSION=2.7.7
+ARG RUBY_VERSION=3.0.6
 
 # Base Alpine Ruby image for common setup
 FROM ruby:$RUBY_VERSION-alpine as base

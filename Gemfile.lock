@@ -98,7 +98,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.2.2)
-    contracts (0.16.1)
+    contracts (0.17)
     crass (1.0.6)
     cucumber (8.0.0)
       builder (~> 3.2, >= 3.2.4)
@@ -443,7 +443,7 @@ DEPENDENCIES
   websocket-driver
 
 RUBY VERSION
-   ruby 2.7.7p221
+   ruby 3.0.6p216
 
 BUNDLED WITH
-   2.1.4
+   2.2.33

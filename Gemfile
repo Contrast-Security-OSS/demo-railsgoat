@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-gem "rails", "5.2.8"
+gem "rails", "6.0.6"
 
 ruby "2.7.7"
 
@@ -21,12 +21,11 @@ gem "pry-rails" # not in dev group in case running via prod/staging @ a training
 gem "puma"
 gem "rails-perftest"
 gem "rake"
-gem "responders" #For Rails 4.2 # LOCKED DOWN
+gem "responders"
 gem "ruby-prof"
-gem "sass-rails"
+gem "sassc-rails"
 gem "simplecov", require: false, group: :test
 gem "sqlite3"
-
 gem "turbolinks"
 gem "uglifier"
 gem "unicorn"

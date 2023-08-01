@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-#don't upgrade
-gem "rails", "5.1.7"
+gem "rails", "5.2.8"
 
 ruby "2.7.7"
 
+gem "websocket-driver"
+
 gem "aruba"
 gem "bcrypt"
+gem "bootsnap"
 gem "coffee-rails"
 gem "execjs"
 gem "foreman"
@@ -24,6 +26,7 @@ gem "ruby-prof"
 gem "sass-rails"
 gem "simplecov", require: false, group: :test
 gem "sqlite3"
+
 gem "turbolinks"
 gem "uglifier"
 gem "unicorn"

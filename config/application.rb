@@ -10,7 +10,7 @@ module Railsgoat
   class Application < Rails::Application
 
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.1
+    config.load_defaults 5.2
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -24,6 +24,6 @@ module Railsgoat
     # Disable CSRF protection for RailsGoat
     config.action_controller.per_form_csrf_tokens = false
 
-    # config.action_dispatch.return_only_media_type_on_content_type = false
+    config.action_dispatch.return_only_media_type_on_content_type = false
   end
 end

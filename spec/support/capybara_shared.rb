@@ -46,8 +46,7 @@ def login(user)
   end
 end
 
-##Hack to fix PhantomJS errors on Mavericks - https://gist.github.com/ericboehs/7125105
-module Capybara::Poltergeist
+module Capybara::Cuprite
   class Client
     private
     def redirect_stdout
@@ -93,8 +92,14 @@ class WarningSuppressor
   end
 end
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, phantomjs_logger: WarningSuppressor.new, timeout: 60)
+Capybara.register_driver :cuprite do |app|
+  Capybara::Cuprite::Driver.new(
+    app,
+    js_errors:       true,
+    window_size:     [1200, 900],
+    browser_options: { 'no-sandbox': nil },
+    timeout: 60
+  )
 end
 
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :cuprite

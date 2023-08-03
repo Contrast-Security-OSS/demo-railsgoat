@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-gem "rails", "6.0.6"
+gem "rails", "6.1.7"
 
-ruby "3.0.6"
+ruby "3.1.4"
 
-gem "websocket-driver"
+# Add the Contrast Agent gem
+gem "contrast-agent"
 
 gem "aruba"
 gem "bcrypt"
@@ -29,6 +30,7 @@ gem "sqlite3"
 gem "turbolinks"
 gem "uglifier"
 gem "unicorn"
+gem "websocket-driver"
 
 # Add SMTP server support using MailCatcher
 # NOTE: https://github.com/sj26/mailcatcher#bundler

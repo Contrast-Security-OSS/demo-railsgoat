@@ -13,4 +13,6 @@ coverage
 /vendor/ruby
 run.sh
 test.sh
+
 contrast_security.yaml
+contrast_connection.json

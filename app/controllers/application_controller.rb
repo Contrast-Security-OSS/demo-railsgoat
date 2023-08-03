@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   # Update: this became default behaviour from Rails 5, so we need to 
   # disable it until we figure out how to implement properly:
-  # skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
 
   private
 

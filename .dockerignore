@@ -1,0 +1,15 @@
+# Ignore root files that are not needed in docker image
+.github
+.jenkins
+.terraform
+.gitignore
+docker-compose.yml
+Dockerfile
+LICENSE.md
+README.md
+
+# Ignore directories that are not needed in docker image
+docs/
+tmp/
+log/*
+public/data/*

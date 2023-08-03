@@ -14,5 +14,6 @@ coverage
 run.sh
 test.sh
 
-contrast_security.yaml
+.env
+contrast_security.[yaml, yml]
 contrast_connection.json

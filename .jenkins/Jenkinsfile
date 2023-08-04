@@ -27,9 +27,6 @@ pipeline {
             steps {
                 dir("$terraformDir") {
                     script {
-                        env.GIT_SHORT_COMMIT = checkout(scm).GIT_COMMIT.take(7)
-                        env.GIT_BRANCH = checkout(scm).GIT_BRANCH
-
                         withCredentials([azureServicePrincipal('ContrastAzureSponsored')]) {
                             try {
                                 sh """
@@ -65,9 +62,6 @@ pipeline {
             steps {
                 dir("$terraformDir") {
                     script {
-                        env.GIT_SHORT_COMMIT = checkout(scm).GIT_COMMIT.take(7)
-                        env.GIT_BRANCH = checkout(scm).GIT_BRANCH
-
                         withCredentials([azureServicePrincipal('ContrastAzureSponsored')]) {
                             try {
                                 sh """
@@ -103,9 +97,6 @@ pipeline {
             steps {
                 dir("$terraformDir") {
                     script {
-                        env.GIT_SHORT_COMMIT = checkout(scm).GIT_COMMIT.take(7)
-                        env.GIT_BRANCH = checkout(scm).GIT_BRANCH
-
                         withCredentials([azureServicePrincipal('ContrastAzureSponsored')]) {
                             try {
                                 sh """

@@ -26,7 +26,7 @@ resource "azurerm_container_group" "app" {
 
   container {
     name   = "web"
-    image  = "contrastsecuritydemo/railsgoat:1.0"
+    image  = "contrastsecuritydemo/railsgoat:6.1.7"
     cpu    = "1"
     memory = "1.5"
     ports {

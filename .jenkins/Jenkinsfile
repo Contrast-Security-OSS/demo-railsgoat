@@ -9,8 +9,8 @@ pipeline {
 
     stages {
         stage('dependencies') {
-            dir("$terraformDir") {
-                steps {
+            steps {
+                dir("$terraformDir") {
                     script {
                         withCredentials([file(credentialsId: env.contrast_yaml, variable: 'path')]) {
                             def contents = readFile(env.path)
@@ -24,8 +24,8 @@ pipeline {
             }
         }
         stage('provision') {
-            dir("$terraformDir") {
-                steps {
+            steps {
+                dir("$terraformDir") {
                     script {
                         env.GIT_SHORT_COMMIT = checkout(scm).GIT_COMMIT.take(7)
                         env.GIT_BRANCH = checkout(scm).GIT_BRANCH
@@ -62,8 +62,8 @@ pipeline {
             }
         }
         stage('provision - dev') {
-            dir("$terraformDir") {
-                steps {
+            steps {
+                dir("$terraformDir") {
                     script {
                         env.GIT_SHORT_COMMIT = checkout(scm).GIT_COMMIT.take(7)
                         env.GIT_BRANCH = checkout(scm).GIT_BRANCH
@@ -100,8 +100,8 @@ pipeline {
             }
         }
         stage('provision - prod') {
-            dir("$terraformDir") {
-                steps {
+            steps {
+                dir("$terraformDir") {
                     script {
                         env.GIT_SHORT_COMMIT = checkout(scm).GIT_COMMIT.take(7)
                         env.GIT_BRANCH = checkout(scm).GIT_BRANCH
@@ -133,8 +133,8 @@ pipeline {
             }
         }
         stage('destroy') {
-            dir("$terraformDir") {
-                steps {
+            steps {
+                dir("$terraformDir") {
                     withCredentials([azureServicePrincipal('ContrastAzureSponsored')]) {
                         sh """
                     export ARM_CLIENT_ID=\$AZURE_CLIENT_ID

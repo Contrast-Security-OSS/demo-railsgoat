@@ -1,5 +1,4 @@
 /.bundle
-/bin
 /db/*.sqlite3
 /log/*.log
 /tmp
@@ -14,4 +13,7 @@ coverage
 /vendor/ruby
 run.sh
 test.sh
-contrast_security.yaml
+
+.env
+contrast_security.[yaml, yml]
+contrast_connection.json

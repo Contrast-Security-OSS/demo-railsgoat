@@ -1,0 +1,29 @@
+services:
+  railsgoat-dev:
+    image: contrastsecuritydemo/railsgoat:6.1.7
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: railsgoat-dev
+    ports:
+      - "3000:3000"
+    env_file: 
+      - .env
+    volumes:
+      - .:/app
+
+  railsgoat-prod:
+    image: contrastsecuritydemo/railsgoat:6.1.7
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: railsgoat-prod
+    ports:
+      - 3001:3000
+    env_file: 
+      - .env
+    environment: 
+      CONTRAST__SERVER__NAME: Local-Prod
+      CONTRAST__SERVER__ENVIRONMENT: production

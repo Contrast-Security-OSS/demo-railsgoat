@@ -4,7 +4,7 @@ echo -e "$0: => Running the docker entrypoint script"
 
 function check_agent_connectivity {
     echo -e "$0: => Checking Contrast Agent configuration"
-    bundle exec rails contrast:config:validate &> /dev/null
+    bundle exec rails contrast:config:validate
 }
 
 if check_agent_connectivity; then

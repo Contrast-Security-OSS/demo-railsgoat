@@ -11,7 +11,7 @@ data "external" "yaml" {
 
 #Set up a personal resource group for the SE local to them
 resource "azurerm_resource_group" "personal" {
-  name     = "Sales-Engineer-${var.initials}"
+  name     = "Sales-Engineer-Jenkins-${var.initials}"
   location = var.location
 }
 

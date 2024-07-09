@@ -2,7 +2,7 @@
 Documentation of the changes made to RailsGoat to add Contrast Security to the project.
 
 ## Changelog to add Contrast to this project
-* `contrast_security.yml` configuration file added to the `config/` directory
+* `contrast_security.yaml` configuration file added to the `config/` directory
 * `.env` configuration file added to the root directory
 * `gem 'contrast-agent'` added to the `Gemfile`
 

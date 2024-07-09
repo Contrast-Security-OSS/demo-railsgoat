@@ -105,7 +105,7 @@ rails training
 For Docker run:
 
 ```sh
-docker compose exec railsgoat-dev rails training
+docker compose exec railsgoat-dev bundle exec rails training
 
 # OR
 

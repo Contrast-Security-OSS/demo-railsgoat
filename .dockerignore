@@ -13,3 +13,7 @@ docs/
 tmp/
 log/*
 public/data/*
+
+# Ignore the dockerenv .env file during docker builds so that credentials are 
+# not accedentally built into container images.
+.env 

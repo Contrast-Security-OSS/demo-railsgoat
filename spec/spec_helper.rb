@@ -9,7 +9,7 @@ SimpleCov.start if ENV["COVERAGE"]
 require File.expand_path("../../config/environment", __FILE__)
 require "rspec/rails"
 require "capybara/rails"
-require "capybara/poltergeist"
+require "capybara/cuprite"
 require "database_cleaner"
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -28,7 +28,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = false # Capybara Poltergeist driver requires this
+  config.use_transactional_fixtures = false
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -61,6 +61,6 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 end
 
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :cuprite
 
 DatabaseCleaner.strategy = :truncation

@@ -11,7 +11,7 @@ data "external" "yaml" {
 
 #Set up a personal resource group for the SE local to them
 resource "azurerm_resource_group" "personal" {
-  name     = "Sales-Engineer-${var.initials}"
+  name     = "Sales-Engineer-Jenkins-${var.initials}"
   location = var.location
 }
 
@@ -26,7 +26,7 @@ resource "azurerm_container_group" "app" {
 
   container {
     name   = "web"
-    image  = "contrastsecuritydemo/railsgoat:1.0"
+    image  = "contrastsecuritydemo/railsgoat:6.1.7"
     cpu    = "1"
     memory = "1.5"
     ports {

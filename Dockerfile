@@ -1,68 +1,73 @@
-# TODO: change to slim or alpine
-FROM ruby:2.6.2
+# Multistage docker build which first builds and bundles all Ruby gems before 
+# creating build targets for the development and production images. 
 
-ARG username
-ARG service_key
+# Default Ruby version for this project.
+ARG RUBY_VERSION=3.1.4
 
-# Add build and runtime dependencies
-# TODO: separate build & runtime and purge build dependencies at the end
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+# BASE STAGE
+# Create a base ruby-alpine stage with common configuration
+# that can be used in all other stages.
+FROM ruby:$RUBY_VERSION-alpine as ruby-alpine
 
-# Install phantomjs dependencies
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        ca-certificates \
-        bzip2 \
-        libfontconfig \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Set environment variables to be shared across all stages.
+ENV GEM_HOME=/usr/local/bundle
+ENV BUNDLE_PATH=$GEM_HOME
+ENV BUNDLE_APP_CONFIG=$BUNDLE_PATH
+ENV RAILS_ENV development
+ENV RACK_ENV development
 
-# Install phantomjs & clean up
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        curl \
-    && mkdir /tmp/phantomjs \
-    && curl -L https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
-           | tar -xj --strip-components=1 -C /tmp/phantomjs \
-    && cd /tmp/phantomjs \
-    && mv bin/phantomjs /usr/local/bin \
-    && cd \
-    && apt-get purge --auto-remove -y \
-        curl \
-    && apt-get clean \
-    && rm -rf /tmp/* /var/lib/apt/lists/*
+# Add basic packages that are shared across all stages
+RUN apk add --no-cache \
+    nodejs \
+    tzdata
 
-# Build and package the app
-RUN mkdir /myapp
-WORKDIR /myapp
-ADD Gemfile /myapp/Gemfile
-ADD Gemfile.lock /myapp/Gemfile.lock
+# BUILDER STAGE
+# Build all gems and dependencies in a builder stage, 
+# whch can then be copied to other stages.
+FROM ruby-alpine as builder
 
-# Add Contrast agent
-RUN bundle add contrast-agent
+# Add packages for required for building
+RUN apk add --no-cache \
+    autoconf \
+    build-base \
+    libpq-dev \
+    mariadb-dev
 
-RUN bundle install
+# Set the working directory for the app. 
+WORKDIR /app                          
 
-ADD ./app /myapp/app
-ADD ./config /myapp/config
-ADD ./db /myapp/db
-ADD ./doc /myapp/doc
-ADD ./lib /myapp/lib
-ADD ./log /myapp/log
-ADD ./public /myapp/public
-ADD ./script /myapp/script
-ADD ./spec /myapp/spec
-RUN mkdir /myapp/tmp
-ADD ./vendor /myapp/vendor
-ADD ./config.ru /myapp/config.ru
-ADD ./entrypoint.sh /myapp/entrypoint.sh
-ADD ./Rakefile /myapp/Rakefile
+# Copy the Gemfile and Gemfile.lock files to the current directory.
+COPY Gemfile* .
 
-#Setup the database
-RUN rails db:setup
+# Install gems and remove any unnecessary build artifacts. 
+RUN bundle config force_ruby_platform true \
+    && bundle install --jobs 4 --retry 3 \ 
+    && rm -rf $BUNDLE_PATH/cache/*.gem \
+    && rm -rf $BUNDLE_PATH/ruby/*/cache
 
-# Make port 3000 available
+# RUNNER STAGE 
+# Copy the needed gems and dependenies from the builder stage to 
+# create the final minimal image for running the app.
+FROM ruby-alpine as runner
+
+# Add packages required for running the app
+RUN apk add --no-cache \
+    chromium \
+    chromium-chromedriver \
+    libpq \
+    mariadb
+
+# Set the working directory for the app.
+WORKDIR /app
+
+# Copy the bundle directory from the "builder" image 
+# and copy all other files to the current directory. 
+COPY --from=builder $BUNDLE_PATH $BUNDLE_PATH
+COPY . . 
+
+# Expose port 3000 for the application.
 EXPOSE 3000
 
-# Start the app server
-ENTRYPOINT [ "/bin/bash", "-c", "/myapp/entrypoint.sh"]
+# Run the command to start the Rails server.
+ENTRYPOINT ["/bin/sh"]
+CMD ["/app/entrypoint.sh"]

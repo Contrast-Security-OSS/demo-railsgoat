@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-#don't upgrade
-gem "rails", "5.1.7"
+gem "rails", "6.1.7"
 
-ruby "2.6.2"
+ruby "3.1.4"
+
+# Add the Contrast Agent gem
+gem "contrast-agent"
 
 gem "aruba"
 gem "bcrypt"
+gem "bootsnap"
 gem "coffee-rails"
 gem "execjs"
 gem "foreman"
@@ -19,15 +22,15 @@ gem "pry-rails" # not in dev group in case running via prod/staging @ a training
 gem "puma"
 gem "rails-perftest"
 gem "rake"
-gem "responders" #For Rails 4.2 # LOCKED DOWN
+gem "responders"
 gem "ruby-prof"
-gem "sass-rails"
+gem "sassc-rails"
 gem "simplecov", require: false, group: :test
-gem "sqlite3", "1.3.13" # 2/7/2019: LOCKED DOWN
-gem "therubyracer"
+gem "sqlite3"
 gem "turbolinks"
 gem "uglifier"
 gem "unicorn"
+gem "websocket-driver"
 
 # Add SMTP server support using MailCatcher
 # NOTE: https://github.com/sj26/mailcatcher#bundler
@@ -51,7 +54,7 @@ group :development, :test, :mysql do
   gem "capybara"
   gem "database_cleaner"
   gem "launchy"
-  gem "poltergeist"
+  gem "cuprite"
   gem "rspec-rails"
   gem "test-unit"
 end

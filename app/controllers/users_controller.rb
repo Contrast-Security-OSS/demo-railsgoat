@@ -26,10 +26,11 @@ class UsersController < ApplicationController
   def update
     message = false
 
-    user = User.where("id = '#{params[:user][:id]}'")[0]
+    user = User.where("id = '#{user_params[:id]}'")[0]
+    # user = current_user
 
     if user
-      user.update_attributes(user_params_without_password)
+      user.update(user_params_without_password)
       if params[:user][:password].present? && (params[:user][:password] == params[:user][:password_confirmation])
         user.password = params[:user][:password]
       end

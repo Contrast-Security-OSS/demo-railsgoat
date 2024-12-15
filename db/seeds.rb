@@ -163,6 +163,14 @@ schedule = [
 
 work_info = [
   {
+    user: "admin@metacorp.com",
+    income: "$200,000",
+    bonuses: "$50,000",
+    years_worked: 9,
+    SSN: "111-11-111",
+    DoB: "02-02-1990"
+  },
+  {
     user: "jack@metacorp.com",
     income: "$50,000",
     bonuses: "$10,000",
